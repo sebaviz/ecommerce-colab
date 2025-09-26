@@ -1,0 +1,23 @@
+<?php
+/**
+ * Crea un pedido de ejemplo con ítems asociados (IACC, 2025).
+ * Flujo pensado para revisión vía Pull Request (Cardellino, 2021; GitHub, 2024; codigofacilito, 2021).
+ */
+try {
+    // ⚠️ Cambia TU_PASSWORD por tu contraseña real de MySQL
+    $pdo = new PDO("mysql:host=localhost;dbname=ecommerce", "root", "Resp..2025");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Crear pedido (Cardellino, 2021)
+    $stmt = $pdo->prepare("INSERT INTO orders (customer_name) VALUES (:customer)");
+    $stmt->execute([':customer' => 'Cliente Demo']);
+    $orderId = $pdo->lastInsertId();
+
+    // Ítems: 1x Ruta (id 1), 2x Ruedas (id 3) (IACC, 2025)
+    $pdo->exec("INSERT INTO order_items (order_id, product_id, quantity) VALUES ($orderId, 1, 1)");
+    $pdo->exec("INSERT INTO order_items (order_id, product_id, quantity) VALUES ($orderId, 3, 2)");
+
+    echo "Pedido creado con ID: $orderId\n";
+} catch (PDOException $e) {
+    echo "Error DB: " . $e->getMessage() . "\n";
+}
