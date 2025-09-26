@@ -1,3 +1,4 @@
+-- Demo en video: commit de colaboración
 -- Esquema para e-commerce de bicicletas (IACC, 2025)
 CREATE DATABASE IF NOT EXISTS ecommerce;
 USE ecommerce;
